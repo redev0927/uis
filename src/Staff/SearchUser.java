@@ -20,165 +20,165 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
 public class SearchUser extends JPanel {
-	public static JTextField tfName;
-	private JTable tbSearch;
+    public static JTextField tfName;
+    private JTable tbSearch;
 
-	private String[] Header = {"¾ÆÀÌµğ", "ÀÌ¸§", "¼Ò¼ÓÇĞ°ú", "ÁÖ¹Îµî·Ï¹øÈ£"};
-	private DefaultTableModel model = new DefaultTableModel(null, Header){
+    private String[] Header = {"ì•„ì´ë””", "ì´ë¦„", "ì†Œì†í•™ê³¼", "ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸"};
+    private DefaultTableModel model = new DefaultTableModel(null, Header){
         public boolean isCellEditable(int rowIndex, int mColIndex) {
-        	int i=0;
-        	boolean state;
-        	
-        	if(mColIndex==(4*i)) {
-        		state = false;
-        		i++;
-        	}
-        	
-        	else {
-        		state = true;
-        		i++;
-        	}
-        	
-        	return state;
+            int i=0;
+            boolean state;
+
+            if(mColIndex==(4*i)) {
+                state = false;
+                i++;
+            }
+
+            else {
+                state = true;
+                i++;
+            }
+
+            return state;
         }
-	};
+    };
 
-public static String Perm = null;
+    public static String Perm = null;
 
-public static String ID = null;
-public static String Name = null;
-public static String Dept = null;
-public static String RRN = null;
+    public static String ID = null;
+    public static String Name = null;
+    public static String Dept = null;
+    public static String RRN = null;
 
-/**
- * Create the panel.
- */
-public SearchUser() {
-	setBackground(Color.WHITE);
-	setLayout(null);
+    /**
+     * Create the panel.
+     */
+    public SearchUser() {
+        setBackground(Color.WHITE);
+        setLayout(null);
 
-	JLabel label = new JLabel("»ç¿ëÀÚ °Ë»ö/ÆíÁı");
-	label.setBounds(17, 15, 157, 21);
-	label.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 18));
-	add(label);
+        JLabel label = new JLabel("ì‚¬ìš©ì ê²€ìƒ‰/í¸ì§‘");
+        label.setBounds(17, 15, 157, 21);
+        label.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 18));
+        add(label);
 
-	JLabel lbIntro = new JLabel("<html><center>¼Ò¼ÓÇĞ°ú ÆíÁı ½Ã ¾Æ·¡ ÇĞ°ú ÄÚµå·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.</center>100:±â°è°øÇĞ°ú 101:Àü»êÇĞ°ú 102:ÀüÀÚ°øÇĞ°ú 103:È­ÇĞ°øÇĞ°ú 104:Ç×°ø¿ìÁÖ°øÇĞ°ú</html>");
-	lbIntro.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
-	lbIntro.setForeground(new Color(0, 0, 128));
-	lbIntro.setBounds(0, 223, 450, 42);
-	add(lbIntro);
+        JLabel lbIntro = new JLabel("<html><center>ì†Œì†í•™ê³¼ í¸ì§‘ ì‹œ ì•„ë˜ í•™ê³¼ ì½”ë“œë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.</center>100:ê¸°ê³„ê³µí•™ê³¼ 101:ì „ì‚°í•™ê³¼ 102:ì „ìê³µí•™ê³¼ 103:í™”í•™ê³µí•™ê³¼ 104:í•­ê³µìš°ì£¼ê³µí•™ê³¼</html>");
+        lbIntro.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 12));
+        lbIntro.setForeground(new Color(0, 0, 128));
+        lbIntro.setBounds(0, 223, 450, 42);
+        add(lbIntro);
 
-	JLabel lbPerm = new JLabel("Á÷±Ş");
-	lbPerm.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-	lbPerm.setBounds(28, 40, 40, 21);
-	add(lbPerm);
+        JLabel lbPerm = new JLabel("ì§ê¸‰");
+        lbPerm.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+        lbPerm.setBounds(28, 40, 40, 21);
+        add(lbPerm);
 
-	JLabel lbName = new JLabel("ÀÌ¸§");
-	lbName.setBounds(177, 40, 40, 21);
-	lbName.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-	add(lbName);
+        JLabel lbName = new JLabel("ì´ë¦„");
+        lbName.setBounds(177, 40, 40, 21);
+        lbName.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+        add(lbName);
 
-	tfName = new JTextField();
-	tfName.setBounds(216, 40, 99, 21);
-	add(tfName);
-	tfName.setColumns(10);
+        tfName = new JTextField();
+        tfName.setBounds(216, 40, 99, 21);
+        add(tfName);
+        tfName.setColumns(10);
 
-	tbSearch = new JTable(model);
-	tbSearch.setBackground(Color.white);
-	tbSearch.getTableHeader().setReorderingAllowed(false);
-	tbSearch.getTableHeader().setResizingAllowed(false);
-	JScrollPane scroll = new JScrollPane(tbSearch);
-	scroll.setLocation(17, 70);
-	scroll.setSize(385, 150);
-	scroll.setPreferredSize(new Dimension(470, 250));
-	add(scroll);
+        tbSearch = new JTable(model);
+        tbSearch.setBackground(Color.white);
+        tbSearch.getTableHeader().setReorderingAllowed(false);
+        tbSearch.getTableHeader().setResizingAllowed(false);
+        JScrollPane scroll = new JScrollPane(tbSearch);
+        scroll.setLocation(17, 70);
+        scroll.setSize(385, 150);
+        scroll.setPreferredSize(new Dimension(470, 250));
+        add(scroll);
 
-	JComboBox cbPerm = new JComboBox();
-	cbPerm.addItem("±³¼ö");
-	cbPerm.addItem("ÇĞ»ı");
-	cbPerm.setSelectedItem(null);
-	cbPerm.setBounds(64, 40, 99, 24);
-	add(cbPerm);
+        JComboBox cbPerm = new JComboBox();
+        cbPerm.addItem("êµìˆ˜");
+        cbPerm.addItem("í•™ìƒ");
+        cbPerm.setSelectedItem(null);
+        cbPerm.setBounds(64, 40, 99, 24);
+        add(cbPerm);
 
-	JButton btnEdit = new JButton("¼öÁ¤");
-	btnEdit.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			// ¼±ÅÃÇÑ ¿­ °ª °¡Á®¿À±â
-			int selectedRow = tbSearch.getSelectedRow();
-			selectedRow = tbSearch.convertRowIndexToModel(selectedRow);
-			ID = (String)tbSearch.getModel().getValueAt(selectedRow, 0);
-			Name = (String)tbSearch.getModel().getValueAt(selectedRow, 1);
-			Dept = (String)tbSearch.getModel().getValueAt(selectedRow, 2);
-			RRN = (String)tbSearch.getModel().getValueAt(selectedRow, 3);
+        JButton btnEdit = new JButton("ìˆ˜ì •");
+        btnEdit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // ì„ íƒí•œ ì—´ ê°’ ê°€ì ¸ì˜¤ê¸°
+                int selectedRow = tbSearch.getSelectedRow();
+                selectedRow = tbSearch.convertRowIndexToModel(selectedRow);
+                ID = (String)tbSearch.getModel().getValueAt(selectedRow, 0);
+                Name = (String)tbSearch.getModel().getValueAt(selectedRow, 1);
+                Dept = (String)tbSearch.getModel().getValueAt(selectedRow, 2);
+                RRN = (String)tbSearch.getModel().getValueAt(selectedRow, 3);
 
-			try {
-				new STFDAO().EditUser();
-				JOptionPane.showMessageDialog(null, "¼öÁ¤µÇ¾ú½À´Ï´Ù.");
-			} catch (Exception e1) {
-				System.out.println("[ERROR]"+e1.getMessage());
-				e1.printStackTrace();
-			}
-		}
-	});
+                try {
+                    new Dao().EditUser();
+                    JOptionPane.showMessageDialog(null, "ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+                } catch (Exception e1) {
+                    System.out.println("[ERROR]"+e1.getMessage());
+                    e1.printStackTrace();
+                }
+            }
+        });
 
-	JButton btnSearch = new JButton("°Ë»ö");
-	btnSearch.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			Perm = cbPerm.getSelectedItem().toString();
-			Load();
-		}
-	});
-	btnSearch.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-	btnSearch.setBounds(329, 37, 71, 27);
-	add(btnSearch);
-	btnEdit.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-	btnEdit.setBounds(91, 270, 105, 27);
-	add(btnEdit);
+        JButton btnSearch = new JButton("ê²€ìƒ‰");
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                Perm = cbPerm.getSelectedItem().toString();
+                Load();
+            }
+        });
+        btnSearch.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+        btnSearch.setBounds(329, 37, 71, 27);
+        add(btnSearch);
+        btnEdit.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+        btnEdit.setBounds(91, 270, 105, 27);
+        add(btnEdit);
 
-	JButton btnDel = new JButton("»èÁ¦");
-	btnDel.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			try {
-				new STFDAO().DelUser();
-				model.setNumRows(0);
-				JOptionPane.showMessageDialog(null, "»èÁ¦µÇ¾ú½À´Ï´Ù.");
-			} catch (Exception e) {
-				System.out.println("[ERROR]"+e.getMessage());
-				e.printStackTrace();
-			}
-		}
-	});
-	btnDel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-	btnDel.setBounds(210, 270, 105, 27);
-	add(btnDel);
-}
+        JButton btnDel = new JButton("ì‚­ì œ");
+        btnDel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    new Dao().DelUser();
+                    model.setNumRows(0);
+                    JOptionPane.showMessageDialog(null, "ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+                } catch (Exception e) {
+                    System.out.println("[ERROR]"+e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+        btnDel.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
+        btnDel.setBounds(210, 270, 105, 27);
+        add(btnDel);
+    }
 
-// µ¥ÀÌÅÍº£ÀÌ½ºÀÇ Á¤º¸¸¦ °¡Á®¿À±â À§ÇÑ ¸Ş¼Òµå(Load)
-public void Load() {
-	STFDAO dao = new STFDAO();
-	ArrayList<STFGS> members = new ArrayList<STFGS>();
-	Object record[] = new Object[4];
+    // ë°ì´í„°ë² ì´ìŠ¤ì˜ ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ ë©”ì†Œë“œ(Load)
+    public void Load() {
+        Dao dao = new Dao();
+        ArrayList<GetterSetter> members = new ArrayList<GetterSetter>();
+        Object record[] = new Object[4];
 
-	model.setNumRows(0);	// °Ë»ö ½Ã¸¶´Ù ±âÁ¸ Å×ÀÌºí¿¡ Ãâ·ÂµÈ ³»¿ëÀ» »èÁ¦
+        model.setNumRows(0);	// ê²€ìƒ‰ ì‹œë§ˆë‹¤ ê¸°ì¡´ í…Œì´ë¸”ì— ì¶œë ¥ëœ ë‚´ìš©ì„ ì‚­ì œ
 
-	try {				
-		members = dao.resultSearch();
+        try {
+            members = dao.resultSearch();
 
-		for(int i=0; i<members.size();i++) {
-			STFGS data = members.get(i);
-			record[0] = data.getID();
-			record[1] = data.getName();
-			record[2] = data.getDept();
-			record[3] = data.getRRN();
-			model.addRow(record);
-		}
+            for(int i=0; i<members.size();i++) {
+                GetterSetter data = members.get(i);
+                record[0] = data.getID();
+                record[1] = data.getName();
+                record[2] = data.getDept();
+                record[3] = data.getRRN();
+                model.addRow(record);
+            }
 
-	} catch(SQLException e) {
-		System.out.println("[ERROR]"+e.getMessage()); // ¿¹¿Ü ¸Ş½ÃÁö (console) ÀÎ¼â
-		e.printStackTrace();
-	} catch(Exception e) {
-		System.out.println("[ERROR]"+e.getMessage());
-		e.printStackTrace();
-	}
-}
+        } catch(SQLException e) {
+            System.out.println("[ERROR]"+e.getMessage()); // ì˜ˆì™¸ ë©”ì‹œì§€ (console) ì¸ì‡„
+            e.printStackTrace();
+        } catch(Exception e) {
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

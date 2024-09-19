@@ -7,114 +7,114 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Common.ReadProps;
+import Database.ReadProp;
 
 // Login - DAO.java
-// DB¿¡ ÀúÀåµÇ¾î ÀÖ´Â ID, PWÀÇ °ªÀ» °¡Á®¿À¸ç,
-// ÇÁ·Î±×·¥ ³»¿¡¼­ »ç¿ëÇÒ ¼ö ÀÖ´Â Çü½ÄÀ¸·Î ÀúÀå
+// DBì— ì €ì¥ë˜ì–´ ìˆëŠ” ID, PWì˜ ê°’ì„ ê°€ì ¸ì˜¤ë©°,
+// í”„ë¡œê·¸ë¨ ë‚´ì—ì„œ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” í˜•ì‹ìœ¼ë¡œ ì €ì¥
 
 public class DAO {
-	// DB ¿¬°áÀ» À§ÇÑ DBÁ¤º¸ ºÒ·¯¿À±â
-	ReadProps pr = new ReadProps();
-	
-	public String oracleDriver=pr.getDBName();
-	public String oracleURL=pr.getDBUrl();
-	public String oracleId=pr.getDBId();
-	public String oraclePw=pr.getDBPw();
-	
-	// JDBC ¿¬°á ¸Ş¼Òµå
-	public Connection getConnection() throws ClassNotFoundException, Exception{
-		Connection con = null; // JDBC¿ÍÀÇ ¿¬°á °´Ã¼ ÃÊ±âÈ­
-		
-		try{
-		Class.forName(oracleDriver); // JDBC Driver °Ë»ö
-		con = DriverManager.getConnection(oracleURL,oracleId,oraclePw); // JDBC URL
-		
-		// JDBC driver ´©¶ô ½Ã ¿¹¿ÜÃ³¸®
-		} catch(ClassNotFoundException e){ 
-			System.out.println("[ERROR]"+e.getMessage());
-			e.printStackTrace();
-			
-		// ¸ğµç ¿¹¿Ü»óÈ² Ã³¸®
-		} catch(Exception e){
-			System.out.println("[ERROR]"+e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return con;
-	}
-	
-	// »ç¿ëÀÚ Á¤º¸¸¦ °¡Á®¿À´Â ±â´É ¸Ş¼Òµå
-	public ArrayList<LoginGS> getMembers() throws SQLException, Exception{
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		// "Statement pstmt = null;"¿¡ ºñÇØ ¹Ì¸®Ã³¸®ÇÏ±â ¶§¹®¿¡ ºü¸£°Ô Ã³¸®
-		ResultSet rs = null;
-		
-		ArrayList<LoginGS> members = new ArrayList<LoginGS>();
-		LoginGS member; // DB TableÀÇ 1°³ÀÇ ·¹ÄÚµå(record : row)¸¦ ºÒ·¯¿À±â À§ÇÑ ÀÓ½Ã º¯¼ö
-		
-		con = getConnection();
-		String sql = "SELECT * FROM STUDENT UNION SELECT * FROM PROFESSOR UNION SELECT ID, PW, NAME, NULL, NULL FROM STAFF";
-		
-		try {
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-					
-			while(rs.next()){
-				member = new LoginGS(); // ÀÓ½Ã »ı¼º
-				member.setId(rs.getString("ID")); // id ÇÊµå°ªÀ» °¡Á®¿È
-				member.setPw(rs.getString("PW")); // pw ÇÊµå°ªÀ» °¡Á®¿È
-				members.add(member);
-			}
-		
-			 rs.close();
-			 pstmt.close();
-			 con.close();
-			
-		} catch(SQLException e) {
-			System.out.println("[ERROR]"+e.getMessage());
-			e.printStackTrace();
-			
-		} catch(Exception e) {
-			System.out.println("[ERROR]"+e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return members;
-	}
-	
-		// ºñ¹Ğ¹øÈ£ º¯°æ ±â´É ¸Ş¼Òµå
-		public void PWUpdate(String pass_after) throws SQLException, Exception{
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String sql = null;
+    // DB ì—°ê²°ì„ ìœ„í•œ DBì •ë³´ ë¶ˆëŸ¬ì˜¤ê¸°
+    ReadProp pr = new ReadProp();
 
-			con = getConnection();
-			
-			if(LoginGUI.PassID.substring(0, 1).equals("S"))
-				sql = "UPDATE STUDENT SET PW='" + pass_after + "' WHERE ID='" + LoginGUI.PassID + "'";
-			else if(LoginGUI.PassID.substring(0, 1).equals("P"))
-				sql = "UPDATE PROFESSOR SET PW='" + pass_after + "' WHERE ID='" + LoginGUI.PassID + "'";
-			else
-				sql = "UPDATE STAFF SET PW='" + pass_after + "' WHERE ID='" + LoginGUI.PassID + "'";
-			
-			try {
-				pstmt = con.prepareStatement(sql);
-				rs = pstmt.executeQuery();
+    public String oracleDriver=pr.getDBName();
+    public String oracleURL=pr.getDBUrl();
+    public String oracleId=pr.getDBId();
+    public String oraclePw=pr.getDBPw();
 
-				rs.close();
-				pstmt.close();
-				con.close();
-				
-			} catch(SQLException e) {
-				System.out.println("[ERROR]"+e.getMessage());
-				e.printStackTrace();
-				
-			} catch(Exception e) {
-				System.out.println("[ERROR]"+e.getMessage());
-				e.printStackTrace();
-			}
-		}
+    // JDBC ì—°ê²° ë©”ì†Œë“œ
+    public Connection getConnection() throws ClassNotFoundException, Exception{
+        Connection con = null; // JDBCì™€ì˜ ì—°ê²° ê°ì²´ ì´ˆê¸°í™”
+
+        try{
+            Class.forName(oracleDriver); // JDBC Driver ê²€ìƒ‰
+            con = DriverManager.getConnection(oracleURL,oracleId,oraclePw); // JDBC URL
+
+            // JDBC driver ëˆ„ë½ ì‹œ ì˜ˆì™¸ì²˜ë¦¬
+        } catch(ClassNotFoundException e){
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+
+            // ëª¨ë“  ì˜ˆì™¸ìƒí™© ì²˜ë¦¬
+        } catch(Exception e){
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return con;
+    }
+
+    // ì‚¬ìš©ì ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ” ê¸°ëŠ¥ ë©”ì†Œë“œ
+    public ArrayList<GetterSetter> getMembers() throws SQLException, Exception{
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        // "Statement pstmt = null;"ì— ë¹„í•´ ë¯¸ë¦¬ì²˜ë¦¬í•˜ê¸° ë•Œë¬¸ì— ë¹ ë¥´ê²Œ ì²˜ë¦¬
+        ResultSet rs = null;
+
+        ArrayList<GetterSetter> members = new ArrayList<GetterSetter>();
+        GetterSetter member; // DB Tableì˜ 1ê°œì˜ ë ˆì½”ë“œ(record : row)ë¥¼ ë¶ˆëŸ¬ì˜¤ê¸° ìœ„í•œ ì„ì‹œ ë³€ìˆ˜
+
+        con = getConnection();
+        String sql = "SELECT * FROM student UNION SELECT * FROM professor UNION SELECT staffid, staffpw, staffname, NULL, NULL FROM staff";
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                member = new GetterSetter(); // ì„ì‹œ ìƒì„±
+                member.setId(rs.getString("studentid")); // id í•„ë“œê°’ì„ ê°€ì ¸ì˜´
+                member.setPw(rs.getString("studentpw")); // pw í•„ë“œê°’ì„ ê°€ì ¸ì˜´
+                members.add(member);
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+
+        } catch(SQLException e) {
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+
+        } catch(Exception e) {
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+        }
+
+        return members;
+    }
+
+    // ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ê¸°ëŠ¥ ë©”ì†Œë“œ
+    public void PWUpdate(String pass_after) throws SQLException, Exception{
+        Connection con = null;
+        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+        String sql = null;
+
+        con = getConnection();
+
+        if(Graphic.PassID.substring(0, 1).equals("S"))
+            sql = "UPDATE student SET studentpw='" + pass_after + "' WHERE studentid='" + Graphic.PassID + "'";
+        else if(Graphic.PassID.substring(0, 1).equals("P"))
+            sql = "UPDATE professor SET professorpw='" + pass_after + "' WHERE professorid='" + Graphic.PassID + "'";
+        else
+            sql = "UPDATE staff SET staffpw='" + pass_after + "' WHERE staffid='" + Graphic.PassID + "'";
+
+        try {
+            pstmt = con.prepareStatement(sql);
+            boolean rs = pstmt.execute();
+
+//            rs.close();
+            pstmt.close();
+            con.close();
+
+        } catch(SQLException e) {
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+
+        } catch(Exception e) {
+            System.out.println("[ERROR]"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
